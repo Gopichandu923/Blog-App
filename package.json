@@ -1,7 +1,7 @@
 {
   "name": "blogapp",
   "version": "1.0.0",
-  "description": "\"REST ful api for blog app \"",
+  "description": "REST ful api for blog app",
   "homepage": "https://github.com/Gopichandu923/Blog-App#readme",
   "bugs": {
     "url": "https://github.com/Gopichandu923/Blog-App/issues"
