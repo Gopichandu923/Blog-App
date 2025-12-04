@@ -1,15 +1,17 @@
 import { query } from "../config/db.js";
 
 export const findUserByEmailOrUsername = async (identifier) => {
-  const result = await query("SELECT * FROM users WHERE name=$1 OR email=$2", [
-    identifier,
-    identifier,
-  ]);
+  const result = await query(
+    "SELECT * FROM users WHERE username=$1 OR email=$2",
+    [identifier, identifier]
+  );
+  console.log(result);
+  return result.rows[0];
 };
 
 export const findUserByEmail = async (email) => {
   const result = await query(
-    "SELECT id,name,email,created_at FROM  users WHERE email=$1",
+    "SELECT id,username,email,created_at FROM  users WHERE email=$1",
     [email]
   );
   console.log(result);
