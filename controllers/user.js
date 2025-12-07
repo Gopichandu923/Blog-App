@@ -21,8 +21,8 @@ export const signUp = async (req, res) => {
       .json({ message: "Please provide username,email and password." });
   }
   try {
-    const usernameCheck = await UserModel.findUserByEmailOrUsername(username);
-    const emailCheck = await UserModel.findUserByEmailOrUsername(email);
+    const usernameCheck = await UserModel.findUserByUsername(username);
+    const emailCheck = await UserModel.findUserByEmail(email);
     if (usernameCheck) {
       return res
         .status(409)
@@ -62,7 +62,7 @@ export const signIn = async (req, res) => {
       .json({ message: "Please provide email and password" });
   }
   try {
-    const user = await UserModel.findUserByEmailOrUsername(email);
+    const user = await UserModel.findUserByEmail(email);
     if (!user) {
       return res.status(401).json({ message: "User not found." });
     }
