@@ -3,6 +3,7 @@ import dotenv from "dotenv";
 import cors from "cors";
 
 import authRouter from "./routes/user.js";
+import postRouter from "./routes/post.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
+app.use("/posts", postRouter);
 
 const PORT = process.env.PORT_NUM;
 
