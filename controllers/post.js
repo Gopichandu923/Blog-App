@@ -40,12 +40,13 @@ export const getAllPost = async (req, res) => {
 //GET method to get particular post
 
 export const getPost = async (req, res) => {
+  console.log(req);
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({ message: "Please provide post id." });
   }
   try {
-    const post = await PostModel.getPost(id);
+    const post = await PostModel.getPostById(id);
     if (!post) {
       return res.status(404).json({ message: "Post not found." });
     }
@@ -74,21 +75,9 @@ export const updatePost = async (req, res) => {
     });
   }
   try {
-    const post = await PostModel.getPost(id);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-    if (post.user_id !== user.id) {
-      return res
-        .status(403)
-        .json({ message: "Only author is allowed to modify this post." });
-    }
     const updatedPost = await PostModel.updatePost(id, title, content);
     res.status(200).json(updatedPost);
   } catch (error) {
-    if (error.code === "22P02") {
-      return res.status(404).json({ message: "Post not found." });
-    }
     console.log("Error updating the post", error);
     res
       .status(500)
@@ -106,22 +95,10 @@ export const deletePost = async (req, res) => {
       .json({ message: "Please provide id of the post required to delete." });
   }
   try {
-    const post = await PostModel.getPost(id);
-    if (!post) {
-      return res.status(404).json({ message: "Post not found." });
-    }
-    if (post.user_id !== user.id) {
-      return res
-        .status(403)
-        .json({ message: "Only author is allowed to delete this post." });
-    }
     const deletedPost = await PostModel.deletePost(id);
     if (deletedPost)
       res.status(200).json({ message: `Successfully deleted the post ${id}` });
   } catch (error) {
-    if (error.code === "22P02") {
-      return res.status(404).json({ message: "Post not found." });
-    }
     console.log("Error deleting the post", error);
     res
       .status(500)
