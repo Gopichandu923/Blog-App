@@ -4,6 +4,7 @@ import cors from "cors";
 
 import authRouter from "./routes/user.js";
 import postRouter from "./routes/post.js";
+import commentRouter from "./routes/comment.js";
 
 dotenv.config();
 
@@ -15,6 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/auth", authRouter);
 app.use("/posts", postRouter);
+app.use("/comments", commentRouter);
 
 const PORT = process.env.PORT_NUM;
 
