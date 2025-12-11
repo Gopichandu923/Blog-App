@@ -1,4 +1,5 @@
 import * as CommentModel from "../models/commentModel.js";
+import * as PostModel from "../models/postModel.js";
 
 //POST method for creating comment for a post
 
@@ -43,10 +44,17 @@ export const createComment = async (req, res) => {
 export const getAllComments = async (req, res) => {
   const { post_id } = req.query;
   if (!post_id) {
-    res.status(400).json({ message: "Please provide post id." });
+    return res.status(400).json({ message: "Please provide post id." });
   }
   try {
     const comments = await CommentModel.getAllComments(post_id);
+    if (!comments) {
+      const post = await PostModel.getPostById(post_id);
+      if (!post) {
+        return res.status(404).json({ message: "Post not found" });
+      }
+      return res.status(200).json([]);
+    }
     return res.status(200).json(comments);
   } catch (error) {
     if (error.code === "22P02") {
@@ -72,7 +80,6 @@ export const getComment = async (req, res) => {
     }
     return res.status(200).json(comment);
   } catch (error) {
-    console.log(error);
     return res
       .status(500)
       .json({ message: "Internal server error while creating a comment." });
@@ -98,7 +105,7 @@ export const updateComment = async (req, res) => {
       return res.status(404).json({ message: "Provide a valid comment id." });
     }
     console.error("Error updating comment:", error);
-    res.status(500).json({ message: "Server error." });
+    return res.status(500).json({ message: "Server error." });
   }
 };
 
@@ -119,6 +126,8 @@ export const deleteComment = async (req, res) => {
     }
 
     console.error("Error deleting comment:", error);
-    res.status(500).json({ message: "Server error." });
+    res
+      .status(500)
+      .json({ message: "Internal server error while deleting a comment." });
   }
 };
