@@ -83,7 +83,7 @@ export const authorizeCommentOwner = async (req, res, next) => {
     if (!comment) {
       return res.status(404).json({ message: "Comment not found." });
     }
-    const isCommentOwner = comment.user_id === userId;
+    const isCommentOwner = comment.author_id === userId;
     if (!isCommentOwner) {
       return res.status(403).json({
         message: "Comment can only be modified by the comment owner.",
