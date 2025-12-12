@@ -49,7 +49,7 @@ export const authorizePostOwner = async (req, res, next) => {
     if (!post) {
       return res.status(404).json({ message: "Post not found." });
     }
-    const isPostAuthor = post.user_id === userId;
+    const isPostAuthor = post.author_id === userId;
     if (!isPostAuthor) {
       if (req.method === "PUT")
         return res.status(403).json({
@@ -116,8 +116,8 @@ export const authorizeCommentDeletion = async (req, res, next) => {
 
     const postAuthorId = await getPostById(comment.post_id);
 
-    const isCommentOwner = comment.user_id === userId;
-    const isPostAuthor = postAuthorId.user_id === userId;
+    const isCommentOwner = comment.author_id === userId;
+    const isPostAuthor = postAuthorId.author_id === userId;
     if (isCommentOwner || isPostAuthor) {
       return next();
     } else {

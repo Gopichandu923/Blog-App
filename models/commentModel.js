@@ -3,7 +3,7 @@ import db from "../config/db.js";
 
 export const createComment = async (post_id, content, user_id) => {
   const result = await db.query(
-    "INSERT INTO comments (post_id,content,user_id) VALUES ($1,$2,$3) RETURNING *;",
+    "INSERT INTO comments (post_id,content,author_id) VALUES ($1,$2,$3) RETURNING *;",
     [post_id, content, user_id]
   );
   return result.rows[0];
@@ -12,7 +12,7 @@ export const createComment = async (post_id, content, user_id) => {
 //To get all comments of a post
 export const getAllComments = async (post_id) => {
   const result = await db.query(
-    "SELECT c.id,c.user_id,u.username as author,c.content,c.created_at FROM comments c JOIN users u ON c.user_id=u.id WHERE c.post_id=$1 ORDER BY created_at ASC;",
+    "SELECT c.id,c.author_id,u.username as author,c.content,c.created_at FROM comments c JOIN users u ON c.author_id=u.id WHERE c.post_id=$1 ORDER BY created_at ASC;",
     [post_id]
   );
   return result.rows;
@@ -21,7 +21,7 @@ export const getAllComments = async (post_id) => {
 //Get a single comment by ID
 export const getCommentById = async (id) => {
   const result = await db.query(
-    "SELECT c.id,c.user_id,u.username as author,c.post_id,c.content,c.created_at,c.updated_at FROM comments c JOIN users u ON c.user_id=u.id WHERE c.id=$1;",
+    "SELECT c.id,c.author_id,u.username as author,c.post_id,c.content,c.created_at,c.updated_at FROM comments c JOIN users u ON c.author_id=u.id WHERE c.id=$1;",
     [id]
   );
   return result.rows[0];

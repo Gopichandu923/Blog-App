@@ -3,7 +3,7 @@ import db from "../config/db.js";
 //Create a new post
 export const createPost = async (title, content, user_id) => {
   const result = await db.query(
-    "INSERT INTO posts (title,content,user_id) VALUES($1,$2,$3) RETURNING id,title,content,user_id;",
+    "INSERT INTO posts (title,content,author_id) VALUES($1,$2,$3) RETURNING id,title,content,user_id;",
     [title, content, user_id]
   );
   return result.rows[0];
@@ -12,7 +12,7 @@ export const createPost = async (title, content, user_id) => {
 //Get all posts
 export const getAllPosts = async () => {
   const result = await db.query(
-    "SELECT p.id,p.user_id,u.username as author,p.title,p.content,p.created_at FROM posts p JOIN users u ON p.user_id=u.id;"
+    "SELECT p.id,p.author_id,u.username as author,p.title,p.content,p.created_at FROM posts p JOIN users u ON p.author_id=u.id;"
   );
   return result.rows;
 };
@@ -20,7 +20,7 @@ export const getAllPosts = async () => {
 //Get particular post
 export const getPostById = async (id) => {
   const result = await db.query(
-    "SELECT p.id,p.user_id,u.username,p.title,p.content,p.created_at,p.updated_at FROM posts p JOIN users u ON p.user_id=u.id WHERE p.id=$1;",
+    "SELECT p.id,p.author_id,u.username,p.title,p.content,p.created_at,p.updated_at FROM posts p JOIN users u ON p.author=u.id WHERE p.id=$1;",
     [id]
   );
   return result.rows[0];
