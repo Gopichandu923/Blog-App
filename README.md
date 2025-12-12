@@ -1,6 +1,7 @@
 Blog application is an REST Api created by using node.js , express.js and postgresql(pg).
 Users can create,read,update and delete posts as well as comments.
 
+Database schema design: https://drawsql.app/teams/devteam-62/diagrams/blog-app
 For API documentaion refer: https://documenter.getpostman.com/view/36492753/2sB3dSR9k4
 
 To execute this project on your system. 
