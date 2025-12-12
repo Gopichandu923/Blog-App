@@ -1,10 +1,10 @@
 import db from "../config/db.js";
 
 //Create a new post
-export const createPost = async (title, content, user_id) => {
+export const createPost = async (title, content, author_id) => {
   const result = await db.query(
-    "INSERT INTO posts (title,content,author_id) VALUES($1,$2,$3) RETURNING id,title,content,user_id;",
-    [title, content, user_id]
+    "INSERT INTO posts (title,content,author_id) VALUES($1,$2,$3) RETURNING *;",
+    [title, content, author_id]
   );
   return result.rows[0];
 };

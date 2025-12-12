@@ -8,8 +8,8 @@ export const findUserByUsername = async (username) => {
 };
 
 export const findUserById = async (id) => {
-  const result = await db.query("SELECT id FROM users WHERE id=$1", [id]);
-  return result.rowCount === 1;
+  const result = await db.query("SELECT * FROM users WHERE id=$1", [id]);
+  return result.rows[0];
 };
 
 export const findUserByEmail = async (email) => {

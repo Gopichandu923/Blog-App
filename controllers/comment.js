@@ -47,14 +47,11 @@ export const getAllComments = async (req, res) => {
     return res.status(400).json({ message: "Please provide post id." });
   }
   try {
-    const comments = await CommentModel.getAllComments(post_id);
-    if (!comments) {
-      const post = await PostModel.getPostById(post_id);
-      if (!post) {
-        return res.status(404).json({ message: "Post not found" });
-      }
-      return res.status(200).json([]);
+    const post = await PostModel.getPostById(post_id);
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
     }
+    const comments = await CommentModel.getAllComments(post_id);
     return res.status(200).json(comments);
   } catch (error) {
     if (error.code === "22P02") {
@@ -95,7 +92,7 @@ export const updateComment = async (req, res) => {
     return res.status(400).json({ message: "Content is required." });
   }
   try {
-    const success = await CommentModel.updateComment(id, content, req.user.id);
+    const success = await CommentModel.updateComment(id, content);
     if (!success) {
       return res.status(404).json({ message: "Comment not found." });
     }

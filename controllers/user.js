@@ -6,11 +6,9 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const generateToken = (user) => {
-  return jwt.sign(
-    { id: user.id, username: user.username, email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRY }
-  );
+  return jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRY,
+  });
 };
 
 export const signUp = async (req, res) => {
@@ -22,12 +20,12 @@ export const signUp = async (req, res) => {
   }
   try {
     const usernameCheck = await UserModel.findUserByUsername(username);
-    const emailCheck = await UserModel.findUserByEmail(email);
     if (usernameCheck) {
       return res
         .status(409)
         .json({ message: "User with username already exists" });
     }
+    const emailCheck = await UserModel.findUserByEmail(email);
     if (emailCheck) {
       return res
         .status(409)

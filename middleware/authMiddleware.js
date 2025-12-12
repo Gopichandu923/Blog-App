@@ -21,13 +21,13 @@ export const protect = async (req, res, next) => {
   }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const userExist = await findUserById(decoded.id);
-    if (!userExist) {
+    const user = await findUserById(decoded.id);
+    if (!user) {
       return res
         .status(401)
         .json({ message: "User associated with this token no longer exists." });
     }
-    req.user = decoded;
+    req.user = user;
     next();
   } catch (error) {
     if (error.name === "TokenExpiredError") {

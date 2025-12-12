@@ -68,7 +68,7 @@ export const updatePost = async (req, res) => {
   if (!id || !title || !content) {
     return res.status(400).json({
       message:
-        "Please provide title ,id,and content are required for the update.",
+        "Please provide id,title,and content are required for the update.",
     });
   }
   try {
@@ -92,8 +92,7 @@ export const deletePost = async (req, res) => {
   }
   try {
     const deletedPost = await PostModel.deletePost(id);
-    if (deletedPost)
-      res.status(200).json({ message: `Successfully deleted the post ${id}` });
+    if (deletedPost) res.status(204).send();
   } catch (error) {
     console.log("Error deleting the post", error);
     res
