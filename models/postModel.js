@@ -11,13 +11,18 @@ export const createPost = async (title, content, user_id) => {
 
 //Get all posts
 export const getAllPosts = async () => {
-  const result = await db.query("SELECT * FROM posts;");
+  const result = await db.query(
+    "SELECT p.id,p.user_id,u.username as author,p.title,p.content,p.created_at FROM posts p JOIN users u ON p.user_id=u.id;"
+  );
   return result.rows;
 };
 
 //Get particular post
-export const getPost = async (id) => {
-  const result = await db.query("SELECT * FROM posts WHERE id=$1;", [id]);
+export const getPostById = async (id) => {
+  const result = await db.query(
+    "SELECT p.id,p.user_id,u.username,p.title,p.content,p.created_at,p.updated_at FROM posts p JOIN users u ON p.user_id=u.id WHERE p.id=$1;",
+    [id]
+  );
   return result.rows[0];
 };
 
@@ -35,5 +40,5 @@ export const deletePost = async (id) => {
   const result = await db.query("DELETE FROM posts WHERE id=$1 RETURNING id", [
     id,
   ]);
-  return result.rows.length > 0;
+  return result.rowCount > 0;
 };
