@@ -92,11 +92,11 @@ export const updateComment = async (req, res) => {
     return res.status(400).json({ message: "Content is required." });
   }
   try {
-    const success = await CommentModel.updateComment(id, content);
-    if (!success) {
+    const updatedComment = await CommentModel.updateComment(id, content);
+    if (!updatedComment) {
       return res.status(404).json({ message: "Comment not found." });
     }
-    return res.status(200).json({ message: "Comment updated successfully." });
+    return res.status(200).json(updatedComment);
   } catch (error) {
     if (error.code === "22P02") {
       return res.status(404).json({ message: "Provide a valid comment id." });
