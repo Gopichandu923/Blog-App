@@ -1,5 +1,4 @@
 import * as PostModel from "../models/postModel.js";
-import * as UserModel from "../models/userModel.js";
 
 //POST method to create a post
 
@@ -40,7 +39,6 @@ export const getAllPost = async (req, res) => {
 //GET method to get particular post
 
 export const getPost = async (req, res) => {
-  console.log(req);
   const { id } = req.params;
   if (!id) {
     return res.status(400).json({ message: "Please provide post id." });
@@ -67,7 +65,6 @@ export const getPost = async (req, res) => {
 export const updatePost = async (req, res) => {
   const { title, content } = req.body;
   const { id } = req.params;
-  const user = req.user;
   if (!id || !title || !content) {
     return res.status(400).json({
       message:
@@ -88,7 +85,6 @@ export const updatePost = async (req, res) => {
 //DELETE method for deleting the post
 export const deletePost = async (req, res) => {
   const { id } = req.params;
-  const user = req.user;
   if (!id) {
     return res
       .status(400)
