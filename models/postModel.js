@@ -20,7 +20,7 @@ export const getAllPosts = async () => {
 //Get particular post
 export const getPostById = async (id) => {
   const result = await db.query(
-    "SELECT p.id,p.author_id,u.username,p.title,p.content,p.created_at,p.updated_at FROM posts p JOIN users u ON p.author=u.id WHERE p.id=$1;",
+    "SELECT p.id,p.author_id,u.username,p.title,p.content,p.created_at,p.updated_at FROM posts p JOIN users u ON p.author_id=u.id WHERE p.id=$1;",
     [id]
   );
   return result.rows[0];
